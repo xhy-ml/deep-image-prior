@@ -24,7 +24,7 @@ def get_net(input_depth, NET_TYPE, pad, upsample_mode, n_channels=3, act_fun='Le
                    feature_scale=4, more_layers=0, concat_x=False,
                    upsample_mode=upsample_mode, pad=pad, norm_layer=nn.BatchNorm2d, need_sigmoid=True, need_bias=True)
     elif NET_TYPE =='UNet_Nested':
-        net = UNet++(num_input_channels=input_depth, num_output_channels=3, 
+        net = UNet_Nested(num_input_channels=input_depth, num_output_channels=3, 
                    feature_scale=4, more_layers=0, concat_x=False,
                    upsample_mode=upsample_mode, pad=pad, norm_layer=nn.BatchNorm2d, need_sigmoid=True, need_bias=True) 
     elif NET_TYPE == 'identity':
