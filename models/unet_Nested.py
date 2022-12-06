@@ -216,26 +216,26 @@ class unetUp(nn.Module):
             #self.conv= unetConv2(out_size * 2+(n_concat-2)*out_size, out_size, None, need_bias, pad)
         else:
             assert False
-# =============================================================================
-#     def forward(self, inputs1, inputs2):
-#         in1_up= self.up(inputs1)
-#         
-#         if (inputs2.size(2) != in1_up.size(2)) or (inputs2.size(3) != in1_up.size(3)):
-#             diff2 = (inputs2.size(2) - in1_up.size(2)) // 2 
-#             diff3 = (inputs2.size(3) - in1_up.size(3)) // 2 
-#             inputs2_ = inputs2[:, :, diff2 : diff2 + in1_up.size(2), diff3 : diff3 + in1_up.size(3)]
-#         else:
-#             inputs2_ = inputs2
-# 
-#         output= self.conv(torch.cat([in1_up, inputs2_], 1))
-# 
-#         return output
-# =============================================================================
+
+    def forward(self, inputs1, inputs2):
+        in1_up= self.up(inputs1)
+        
+        if (inputs2.size(2) != in1_up.size(2)) or (inputs2.size(3) != in1_up.size(3)):
+            diff2 = (inputs2.size(2) - in1_up.size(2)) // 2 
+            diff3 = (inputs2.size(3) - in1_up.size(3)) // 2 
+            inputs2_ = inputs2[:, :, diff2 : diff2 + in1_up.size(2), diff3 : diff3 + in1_up.size(3)]
+        else:
+            inputs2_ = inputs2
+
+        output= self.conv(torch.cat([in1_up, inputs2_], 1))
+
+        return output
+
     
-    def forward(self, high_feature, *low_feature):
-        outputs0 = self.up(high_feature)
-        for feature in low_feature:
-            outputs0 = torch.cat([outputs0, feature], 1)
-        return self.conv(outputs0)
+#     def forward(self, high_feature, *low_feature):
+#         outputs0 = self.up(high_feature)
+#         for feature in low_feature:
+#             outputs0 = torch.cat([outputs0, feature], 1)
+#         return self.conv(outputs0)
 
       
