@@ -206,12 +206,14 @@ class unetUp(nn.Module):
 
         num_filt = out_size if same_num_filt else out_size * 2
         if upsample_mode == 'deconv':
-            self.up= nn.ConvTranspose2d(num_filt, out_size, 4, stride=2, padding=1)
             self.conv= unetConv2(out_size * 2+(n_concat-2)*out_size, out_size, None, need_bias, pad)
+            self.up= nn.ConvTranspose2d(num_filt, out_size, 4, stride=2, padding=1)
+            #self.conv= unetConv2(out_size * 2+(n_concat-2)*out_size, out_size, None, need_bias, pad)
         elif upsample_mode=='bilinear' or upsample_mode=='nearest':
+            self.conv= unetConv2(out_size * 2+(n_concat-2)*out_size, out_size, None, need_bias, pad)
             self.up = nn.Sequential(nn.Upsample(scale_factor=2, mode=upsample_mode),
                                    conv(num_filt, out_size, 3, bias=need_bias, pad=pad))
-            self.conv= unetConv2(out_size * 2+(n_concat-2)*out_size, out_size, None, need_bias, pad)
+            #self.conv= unetConv2(out_size * 2+(n_concat-2)*out_size, out_size, None, need_bias, pad)
         else:
             assert False
 # =============================================================================
